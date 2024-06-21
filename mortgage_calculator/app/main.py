@@ -1,4 +1,4 @@
-from app import models, user
+from app import models, routes
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine
@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 
-app.include_router(user.router, tags=["Users"], prefix="/api/mortgage")
+app.include_router(routes.router, tags=["Users"], prefix="/api/mortgage")
 
 
 @app.get("/api/healthchecker")

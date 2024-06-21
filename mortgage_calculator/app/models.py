@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, ForeignKey, Numeric, TIMESTAMP
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy_utils import UUIDType
+from sqlalchemy import Enum as SQLAlchemyEnum
 import uuid
 from app.database import Base
 
@@ -37,7 +38,7 @@ class Mortgage(Base):
     property_id = Column(UUIDType(binary=False), ForeignKey("properties.id"))
     loan_to_value = Column(Numeric(5, 2), nullable=False)
     interest_rate = Column(Numeric(5, 2), nullable=False)
-    mortgage_type = Column(MortgageType, nullable=False)
+    mortgage_type = Column(SQLAlchemyEnum(MortgageType), nullable=False)
 
     property = relationship("Property", back_populates="mortgages")
 
