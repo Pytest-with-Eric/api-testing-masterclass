@@ -13,7 +13,7 @@ class MortgageType(str, Enum):
     repayment = "repayment"
 
 
-class Property(Base):
+class PropertyOrm(Base):
     __tablename__ = "properties"
 
     id = Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
@@ -22,8 +22,8 @@ class Property(Base):
     renovation_cost = Column(Numeric(10, 2), nullable=False)
     property_name = Column(String(255), nullable=False)
 
-    mortgages = relationship("Mortgage", back_populates="property")
-    costs = relationship("Cost", back_populates="property")
+    mortgages = relationship("MortgageOrm", back_populates="property")
+    costs = relationship("CostOrm", back_populates="property")
 
     createdAt = Column(
         TIMESTAMP(timezone=True), nullable=False, server_default=func.now()
@@ -31,7 +31,7 @@ class Property(Base):
     updatedAt = Column(TIMESTAMP(timezone=True), default=None, onupdate=func.now())
 
 
-class Mortgage(Base):
+class MortgageOrm(Base):
     __tablename__ = "mortgages"
 
     id = Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
@@ -40,7 +40,7 @@ class Mortgage(Base):
     interest_rate = Column(Numeric(5, 2), nullable=False)
     mortgage_type = Column(SQLAlchemyEnum(MortgageType), nullable=False)
 
-    property = relationship("Property", back_populates="mortgages")
+    property = relationship("PropertyOrm", back_populates="mortgages")
 
     createdAt = Column(
         TIMESTAMP(timezone=True), nullable=False, server_default=func.now()
@@ -48,7 +48,7 @@ class Mortgage(Base):
     updatedAt = Column(TIMESTAMP(timezone=True), default=None, onupdate=func.now())
 
 
-class Cost(Base):
+class CostOrm(Base):
     __tablename__ = "costs"
 
     id = Column(UUIDType(binary=False), primary_key=True, default=uuid.uuid4)
@@ -56,7 +56,7 @@ class Cost(Base):
     admin_costs = Column(Numeric(10, 2), nullable=False)
     management_fees = Column(Numeric(10, 2), nullable=False)
 
-    property = relationship("Property", back_populates="costs")
+    property = relationship("PropertyOrm", back_populates="costs")
 
     createdAt = Column(
         TIMESTAMP(timezone=True), nullable=False, server_default=func.now()

@@ -11,7 +11,7 @@ class Status(Enum):
 
 
 # Property Schemas
-class PropertyBase(BaseModel):
+class PropertyBaseModel(BaseModel):
     purchase_price: float = Field(
         ..., description="The purchase price of the property", example=300000.00
     )
@@ -27,21 +27,34 @@ class PropertyBase(BaseModel):
         ..., description="Name or identifier for the property", example="Downtown Condo"
     )
 
+    class Config:
+        from_attributes = True
 
-class PropertyCreate(PropertyBase):
-    pass
 
-
-class PropertyResponse(BaseModel):
+class PropertyModel(PropertyBaseModel):
     id: UUID
-    status: Status
-    property: PropertyBase
     createdAt: datetime
     updatedAt: Optional[datetime]
 
+    class Config:
+        from_attributes = True
+
+
+class PropertyCreateModel(PropertyBaseModel):
+    pass
+
+
+class PropertyResponseModel(BaseModel):
+    status: Status = Status.Success
+    message: str
+    data: PropertyModel
+
+    class Config:
+        from_attributes = True
+
 
 # Mortgage Schemas
-class MortgageBase(BaseModel):
+class MortgageBaseModel(BaseModel):
     loan_to_value: float = Field(
         ..., description="Loan to value ratio of the mortgage", example=80.0
     )
@@ -55,20 +68,20 @@ class MortgageBase(BaseModel):
     )
 
 
-class MortgageCreate(MortgageBase):
+class MortgageCreateModel(MortgageBaseModel):
     property_id: UUID
 
 
-class MortgageResponse(BaseModel):
+class MortgageResponseModel(BaseModel):
     id: UUID
     status: Status
-    mortgage: MortgageBase
+    mortgage: MortgageBaseModel
     createdAt: datetime
     updatedAt: Optional[datetime]
 
 
 # Cost Schemas
-class CostBase(BaseModel):
+class CostBaseModel(BaseModel):
     admin_costs: float = Field(
         ...,
         description="Administrative costs associated with the property",
@@ -79,27 +92,27 @@ class CostBase(BaseModel):
     )
 
 
-class CostCreate(CostBase):
+class CostCreateModel(CostBaseModel):
     property_id: UUID
 
 
-class CostResponse(BaseModel):
+class CostResponseModel(BaseModel):
     id: UUID
     status: Status
-    cost: CostBase
+    cost: CostBaseModel
     createdAt: datetime
     updatedAt: Optional[datetime]
 
 
 # Combined Response Schemas
-class PropertyDetailResponse(BaseModel):
+class PropertyDetailResponseModel(BaseModel):
     status: Status
-    property: PropertyBase
-    mortgages: List[MortgageBase]
-    costs: List[CostBase]
+    property: PropertyBaseModel
+    mortgages: List[MortgageBaseModel]
+    costs: List[CostBaseModel]
 
 
 # General API Responses
-class ApiResponse(BaseModel):
+class ApiResponseModel(BaseModel):
     status: Status
     message: str
