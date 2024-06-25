@@ -10,25 +10,37 @@ class Status(Enum):
     Error = "Error"
 
 
-# Property Schemas
 class PropertyBaseModel(BaseModel):
-    purchase_price: float = Field(
-        ..., description="The purchase price of the property", example=300000.00
+    purchase_price: Optional[float] = Field(
+        None, example=300000.00, description="The purchase price of the property"
     )
-    rental_income: float = Field(
-        ...,
-        description="Monthly rental income expected from the property",
+    rental_income: Optional[float] = Field(
+        None,
         example=1500.00,
+        description="Monthly rental income expected from the property",
     )
-    renovation_cost: float = Field(
-        ..., description="Cost of any renovations needed", example=20000.00
+    renovation_cost: Optional[float] = Field(
+        None, example=20000.00, description="Cost of any renovations needed"
     )
-    property_name: str = Field(
-        ..., description="Name or identifier for the property", example="Downtown Condo"
+    property_name: Optional[str] = Field(
+        None,
+        example="Downtown Condo",
+        description="Name or identifier for the property",
     )
 
     class Config:
         from_attributes = True
+
+
+class PropertyCreateModel(PropertyBaseModel):
+    purchase_price: float
+    rental_income: float
+    renovation_cost: float
+    property_name: str
+
+
+class PropertyUpdateModel(PropertyBaseModel):
+    pass
 
 
 class PropertyModel(PropertyBaseModel):
@@ -37,11 +49,7 @@ class PropertyModel(PropertyBaseModel):
     updatedAt: Optional[datetime]
 
     class Config:
-        from_attributes = True
-
-
-class PropertyCreateModel(PropertyBaseModel):
-    pass
+        orm_mode = True
 
 
 class PropertyResponseModel(BaseModel):
@@ -49,8 +57,17 @@ class PropertyResponseModel(BaseModel):
     message: str
     data: PropertyModel
 
-    class Config:
-        from_attributes = True
+
+class PropertyListResponseModel(BaseModel):
+    status: Status = Status.Success
+    message: str
+    data: List[PropertyModel]
+
+
+class PropertyDeleteModel(BaseModel):
+    id: UUID
+    status: Status = Status.Success
+    message: str
 
 
 # Mortgage Schemas
