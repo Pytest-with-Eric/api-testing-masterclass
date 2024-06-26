@@ -57,7 +57,7 @@ def update_property(
 
 @router.delete(
     "/property/{property_id}",
-    status_code=status.HTTP_200_OK,
+    status_code=status.HTTP_202_ACCEPTED,
     response_model=schemas.PropertyDeleteModel,
 )
 def delete_property(property_id: str, db: Session = Depends(get_db)):

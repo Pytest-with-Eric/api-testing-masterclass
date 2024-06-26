@@ -77,7 +77,7 @@ def update_property_crud(
 
     try:
         # Prepare update data from the payload, only including fields that are set
-        update_data = payload.dict(exclude_unset=True)
+        update_data = payload.model_dump()
         if update_data:
             property_query.update(update_data, synchronize_session="evaluate")
             db.commit()

@@ -66,6 +66,5 @@ def property_payload(property_id):
         "purchase_price": 300000,
         "rental_income": 2500,
         "renovation_cost": 50000,
-        "property_name": "Swan Steet",
-        "id": property_id,
+        "property_name": "123 Elm Steet",
     }
