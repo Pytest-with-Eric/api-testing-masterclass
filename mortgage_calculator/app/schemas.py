@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import List, Optional
 from pydantic import BaseModel, Field, ConfigDict
 from uuid import UUID
+from app.models import MortgageType
 
 
 class Status(Enum):
@@ -12,7 +13,7 @@ class Status(Enum):
 
 class PropertyBaseModel(BaseModel):
     purchase_price: Optional[float] = Field(
-        ...,
+        default=None,
         json_schema_extra={
             "example": 300000.00,
             "description": "The purchase price of the property",
@@ -20,27 +21,40 @@ class PropertyBaseModel(BaseModel):
     )
 
     rental_income: Optional[float] = Field(
-        ...,
+        default=None,
         json_schema_extra={
             "example": 1500.00,
             "description": "Monthly rental income from the property",
         },
     )
     renovation_cost: Optional[float] = Field(
-        ...,
+        default=None,
         json_schema_extra={
             "example": 20000.00,
             "description": "Cost of renovation for the property",
         },
     )
     property_name: Optional[str] = Field(
-        ...,
+        default=None,
         json_schema_extra={
             "example": "Property 1",
             "description": "Name of the property",
         },
     )
-
+    admin_costs: Optional[float] = Field(
+        default=None,
+        json_schema_extra={
+            "example": 500.00,
+            "description": "Administrative costs associated with buying the property",
+        },
+    )
+    management_fees: Optional[float] = Field(
+        default=None,
+        json_schema_extra={
+            "example": 100.00,
+            "description": "Monthly management fees for the property",
+        },
+    )
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -81,66 +95,73 @@ class PropertyDeleteModel(BaseModel):
     message: str
 
 
-# # Mortgage Schemas
-# class MortgageBaseModel(BaseModel):
-#     loan_to_value: float = Field(
-#         ..., description="Loan to value ratio of the mortgage", example=80.0
-#     )
-#     interest_rate: float = Field(
-#         ..., description="Interest rate for the mortgage", example=3.5
-#     )
-#     mortgage_type: str = Field(
-#         ...,
-#         description="Type of mortgage (interest_only or capital_repayment)",
-#         example="capital_repayment",
-#     )
+# Mortgage Schemas
+class MortgageBaseModel(BaseModel):
+    loan_to_value: Optional[float] = Field(
+        default=None,
+        json_schema_extra={
+            "example": 75.0,
+            "description": "Loan to value ratio for the mortgage",
+        },
+    )
+    interest_rate: Optional[float] = Field(
+        default=None,
+        json_schema_extra={
+            "example": 2.5,
+            "description": "Interest rate for the mortgage",
+        },
+    )
+    mortgage_type: Optional[MortgageType] = Field(
+        default=None,
+        json_schema_extra={
+            "example": "Repayment",
+            "description": "Type of mortgage",
+        },
+    )
+    loan_term: Optional[int] = Field(
+        default=None,
+        json_schema_extra={
+            "example": 30,
+            "description": "Loan term in years",
+        },
+    )
+
+    model_config = ConfigDict(from_attributes=True)
 
 
-# class MortgageCreateModel(MortgageBaseModel):
-#     property_id: UUID
+class MortgageCreateModel(MortgageBaseModel):
+    loan_to_value: float
+    interest_rate: float
+    mortgage_type: MortgageType
+    property_id: UUID
 
 
-# class MortgageResponseModel(BaseModel):
-#     id: UUID
-#     status: Status
-#     mortgage: MortgageBaseModel
-#     createdAt: datetime
-#     updatedAt: Optional[datetime]
+class MortgageUpdateModel(MortgageBaseModel):
+    pass
 
 
-# # Cost Schemas
-# class CostBaseModel(BaseModel):
-#     admin_costs: float = Field(
-#         ...,
-#         description="Administrative costs associated with the property",
-#         example=500.00,
-#     )
-#     management_fees: float = Field(
-#         ..., description="Monthly management fees", example=100.00
-#     )
+class MortgageModel(MortgageBaseModel):
+    id: UUID
+    createdAt: datetime
+    updatedAt: Optional[datetime]
+    property_id: UUID
+
+    model_config = ConfigDict(from_attributes=True)
 
 
-# class CostCreateModel(CostBaseModel):
-#     property_id: UUID
+class MortgageResponseModel(BaseModel):
+    status: Status = Status.Success
+    message: str
+    data: MortgageModel
 
 
-# class CostResponseModel(BaseModel):
-#     id: UUID
-#     status: Status
-#     cost: CostBaseModel
-#     createdAt: datetime
-#     updatedAt: Optional[datetime]
+class MortgageDeleteModel(BaseModel):
+    id: UUID
+    status: Status = Status.Success
+    message: str
 
 
-# # Combined Response Schemas
-# class PropertyDetailResponseModel(BaseModel):
-#     status: Status
-#     property: PropertyBaseModel
-#     mortgages: List[MortgageBaseModel]
-#     costs: List[CostBaseModel]
-
-
-# # General API Responses
-# class ApiResponseModel(BaseModel):
-#     status: Status
-#     message: str
+class MortgageListResponseModel(BaseModel):
+    status: Status = Status.Success
+    message: str
+    data: List[MortgageModel]

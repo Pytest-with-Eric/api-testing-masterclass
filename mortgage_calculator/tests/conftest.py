@@ -51,20 +51,43 @@ def test_client(db_session):
         yield test_client
 
 
-# Fixture to generate a random property id
-@pytest.fixture(scope="function")
-def property_id() -> uuid.UUID:
-    """Generate a random UUID for property id."""
-    return str(uuid.uuid4())
-
-
 # Fixture to generate a user payload
 @pytest.fixture(scope="function")
-def property_payload(property_id):
+def property_payload():
     """Generate a property payload."""
     return {
         "purchase_price": 300000,
         "rental_income": 2500,
         "renovation_cost": 50000,
         "property_name": "123 Elm Steet",
+        "admin_costs": 3000,
+        "management_fees": 200,
+    }
+
+
+@pytest.fixture
+def update_property_payload():
+    """Generate an updated property payload."""
+    return {
+        "rental_income": 4000,
+        "property_name": "456 Elm Street",
+    }
+
+
+@pytest.fixture(scope="function")
+def mortgage_payload():
+    """Generate a mortgage payload."""
+    return {
+        "loan_to_value": 100,
+        "interest_rate": 3,
+        "mortgage_type": "repayment",
+        "loan_term": 30,
+    }
+
+
+@pytest.fixture(scope="function")
+def update_mortgage_payload():
+    """Generate an updated mortgage payload."""
+    return {
+        "interest_rate": 2.5,
     }

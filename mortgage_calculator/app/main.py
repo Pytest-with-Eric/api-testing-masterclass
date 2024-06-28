@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 
-app.include_router(routes.router, tags=["Users"], prefix="/api/mortgage")
+app.include_router(routes.router, tags=["MortgageCalculator"], prefix="/api/v1")
 
 
 @app.get("/api/healthchecker")

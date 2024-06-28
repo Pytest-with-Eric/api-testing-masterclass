@@ -6,6 +6,14 @@ from app.crud.property_crud import (
     delete_property_crud,
     get_properties_crud,
 )
+from app.crud.mortgage_crud import (
+    create_mortgage_crud,
+    get_mortgage_crud,
+    update_mortgage_crud,
+    delete_mortgage_crud,
+    get_mortgages_crud,
+)
+from app.custom.db_queries import get_mortgage_payment
 import app.schemas as schemas
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -39,7 +47,7 @@ def get_property(property_id: str, db: Session = Depends(get_db)):
     return get_property_crud(property_id=property_id, db=db)
 
 
-@router.put(
+@router.patch(
     "/property/{property_id}",
     status_code=status.HTTP_202_ACCEPTED,
     response_model=schemas.PropertyResponseModel,
@@ -77,3 +85,77 @@ def get_properties(db: Session = Depends(get_db)):
     Get all properties.
     """
     return get_properties_crud(db=db)
+
+
+@router.post(
+    "/mortgage",
+    status_code=status.HTTP_201_CREATED,
+    response_model=schemas.MortgageResponseModel,
+)
+def create_mortgage(
+    mortgage: schemas.MortgageCreateModel, db: Session = Depends(get_db)
+):
+    """
+    Create a new mortgage.
+    """
+    return create_mortgage_crud(payload=mortgage, db=db)
+
+
+@router.get(
+    "/mortgage/{mortgage_id}",
+    status_code=status.HTTP_200_OK,
+    response_model=schemas.MortgageResponseModel,
+)
+def get_mortgage(mortgage_id: str, db: Session = Depends(get_db)):
+    """
+    Get a mortgage by ID.
+    """
+    return get_mortgage_crud(mortgage_id=mortgage_id, db=db)
+
+
+@router.patch(
+    "/mortgage/{mortgage_id}",
+    status_code=status.HTTP_202_ACCEPTED,
+    response_model=schemas.MortgageResponseModel,
+)
+def update_mortgage(
+    mortgage_id: str,
+    mortgage: schemas.MortgageUpdateModel,
+    db: Session = Depends(get_db),
+):
+    """
+    Update a mortgage by ID.
+    """
+    return update_mortgage_crud(mortgage_id=mortgage_id, payload=mortgage, db=db)
+
+
+@router.delete(
+    "/mortgage/{mortgage_id}",
+    status_code=status.HTTP_202_ACCEPTED,
+    response_model=schemas.MortgageDeleteModel,
+)
+def delete_mortgage(mortgage_id: str, db: Session = Depends(get_db)):
+    """
+    Delete a mortgage by ID.
+    """
+    return delete_mortgage_crud(mortgage_id=mortgage_id, db=db)
+
+
+@router.get(
+    "/mortgage",
+    status_code=status.HTTP_200_OK,
+    response_model=schemas.MortgageListResponseModel,
+)
+def get_mortgages(db: Session = Depends(get_db)):
+    """
+    Get all mortgages.
+    """
+    return get_mortgages_crud(db=db)
+
+
+@router.post("/mortgage/{mortgage_id}/payment", response_model=dict)
+def get_mortgage_interest_payment(mortgage_id: str, db: Session = Depends(get_db)):
+    """
+    Retrieve the monthly payment for a given mortgage.
+    """
+    return get_mortgage_payment(mortgage_id, db)

@@ -77,7 +77,7 @@ def update_property_crud(
 
     try:
         # Prepare update data from the payload, only including fields that are set
-        update_data = payload.model_dump()
+        update_data = payload.model_dump(exclude_unset=True)
         if update_data:
             property_query.update(update_data, synchronize_session="evaluate")
             db.commit()
@@ -144,6 +144,6 @@ def get_properties_crud(
         status=schemas.Status.Success,
         message="Properties retrieved successfully.",
         data=[
-            schemas.PropertyModel.model_validate(property) for property in properties
+            schemas.PropertyModel.model_validate(property_) for property_ in properties
         ],
     )
