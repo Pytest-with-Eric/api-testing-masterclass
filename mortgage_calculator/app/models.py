@@ -40,6 +40,7 @@ class MortgageOrm(Base):
     interest_rate = Column(Numeric(5, 2), nullable=False)
     mortgage_type = Column(SQLAlchemyEnum(MortgageType), nullable=False)
     loan_term = Column(Numeric(5, 2), nullable=True)
+    mortgage_amount = Column(Numeric(10, 2), nullable=False)
 
     property = relationship("PropertyOrm", back_populates="mortgages")
 

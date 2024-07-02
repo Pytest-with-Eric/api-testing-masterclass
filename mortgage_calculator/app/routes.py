@@ -17,6 +17,7 @@ from app.custom.db_queries import get_mortgage_payment
 import app.schemas as schemas
 from sqlalchemy.orm import Session
 from app.database import get_db
+from typing import Dict
 
 router = APIRouter()
 
@@ -28,7 +29,7 @@ router = APIRouter()
 )
 def create_property(
     property: schemas.PropertyCreateModel, db: Session = Depends(get_db)
-):
+) -> schemas.PropertyResponseModel:
     """
     Create a new property.
     """
@@ -40,7 +41,9 @@ def create_property(
     status_code=status.HTTP_200_OK,
     response_model=schemas.PropertyResponseModel,
 )
-def get_property(property_id: str, db: Session = Depends(get_db)):
+def get_property(
+    property_id: str, db: Session = Depends(get_db)
+) -> schemas.PropertyResponseModel:
     """
     Get a property by ID.
     """
@@ -56,7 +59,7 @@ def update_property(
     property_id: str,
     property: schemas.PropertyUpdateModel,
     db: Session = Depends(get_db),
-):
+) -> schemas.PropertyResponseModel:
     """
     Update a property by ID.
     """
@@ -68,7 +71,9 @@ def update_property(
     status_code=status.HTTP_202_ACCEPTED,
     response_model=schemas.PropertyDeleteModel,
 )
-def delete_property(property_id: str, db: Session = Depends(get_db)):
+def delete_property(
+    property_id: str, db: Session = Depends(get_db)
+) -> schemas.PropertyDeleteModel:
     """
     Delete a property by ID.
     """
@@ -80,7 +85,7 @@ def delete_property(property_id: str, db: Session = Depends(get_db)):
     status_code=status.HTTP_200_OK,
     response_model=schemas.PropertyListResponseModel,
 )
-def get_properties(db: Session = Depends(get_db)):
+def get_properties(db: Session = Depends(get_db)) -> schemas.PropertyListResponseModel:
     """
     Get all properties.
     """
@@ -94,7 +99,7 @@ def get_properties(db: Session = Depends(get_db)):
 )
 def create_mortgage(
     mortgage: schemas.MortgageCreateModel, db: Session = Depends(get_db)
-):
+) -> schemas.MortgageResponseModel:
     """
     Create a new mortgage.
     """
@@ -106,7 +111,9 @@ def create_mortgage(
     status_code=status.HTTP_200_OK,
     response_model=schemas.MortgageResponseModel,
 )
-def get_mortgage(mortgage_id: str, db: Session = Depends(get_db)):
+def get_mortgage(
+    mortgage_id: str, db: Session = Depends(get_db)
+) -> schemas.MortgageResponseModel:
     """
     Get a mortgage by ID.
     """
@@ -122,7 +129,7 @@ def update_mortgage(
     mortgage_id: str,
     mortgage: schemas.MortgageUpdateModel,
     db: Session = Depends(get_db),
-):
+) -> schemas.MortgageResponseModel:
     """
     Update a mortgage by ID.
     """
@@ -134,7 +141,9 @@ def update_mortgage(
     status_code=status.HTTP_202_ACCEPTED,
     response_model=schemas.MortgageDeleteModel,
 )
-def delete_mortgage(mortgage_id: str, db: Session = Depends(get_db)):
+def delete_mortgage(
+    mortgage_id: str, db: Session = Depends(get_db)
+) -> schemas.MortgageDeleteModel:
     """
     Delete a mortgage by ID.
     """
@@ -146,15 +155,15 @@ def delete_mortgage(mortgage_id: str, db: Session = Depends(get_db)):
     status_code=status.HTTP_200_OK,
     response_model=schemas.MortgageListResponseModel,
 )
-def get_mortgages(db: Session = Depends(get_db)):
+def get_mortgages(db: Session = Depends(get_db)) -> schemas.MortgageListResponseModel:
     """
     Get all mortgages.
     """
     return get_mortgages_crud(db=db)
 
 
-@router.post("/mortgage/{mortgage_id}/payment", response_model=dict)
-def get_mortgage_interest_payment(mortgage_id: str, db: Session = Depends(get_db)):
+@router.post("/mortgage/{mortgage_id}/payment", response_model=Dict)
+def calculate_mortgage_payment(mortgage_id: str, db: Session = Depends(get_db)) -> Dict:
     """
     Retrieve the monthly payment for a given mortgage.
     """

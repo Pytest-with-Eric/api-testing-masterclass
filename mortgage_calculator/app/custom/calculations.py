@@ -9,7 +9,7 @@ def calculate_interest_only_payment(
     :return: Monthly interest payment.
     """
     monthly_interest_rate = annual_interest_rate / 100 / 12
-    return loan_amount * monthly_interest_rate
+    return round(loan_amount * monthly_interest_rate, 2)
 
 
 def calculate_repayment_mortgage_payment(
@@ -32,4 +32,4 @@ def calculate_repayment_mortgage_payment(
         * (monthly_interest_rate * (1 + monthly_interest_rate) ** total_payments)
         / ((1 + monthly_interest_rate) ** total_payments - 1)
     )
-    return monthly_payment
+    return round(monthly_payment, 2)

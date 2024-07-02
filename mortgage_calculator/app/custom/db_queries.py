@@ -26,12 +26,12 @@ def get_mortgage_payment(mortgage_id: str, db: Session):
 
     if mortgage.mortgage_type == MortgageType.interest_only.value:
         monthly_payment = calculate_interest_only_payment(
-            property.purchase_price, mortgage.interest_rate
+            mortgage.mortgage_amount, mortgage.interest_rate
         )
     elif mortgage.mortgage_type == MortgageType.repayment.value:
         # Assuming a fixed loan term, e.g., 30 years. This could also be dynamically fetched or adjusted.
         monthly_payment = calculate_repayment_mortgage_payment(
-            property.purchase_price, mortgage.interest_rate, 30
+            mortgage.mortgage_amount, mortgage.interest_rate, mortgage.loan_term
         )
     else:
         raise HTTPException(

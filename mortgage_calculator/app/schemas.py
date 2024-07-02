@@ -63,6 +63,8 @@ class PropertyCreateModel(PropertyBaseModel):
     rental_income: float
     renovation_cost: float
     property_name: str
+    admin_costs: float
+    management_fees: float
 
 
 class PropertyUpdateModel(PropertyBaseModel):
@@ -125,6 +127,13 @@ class MortgageBaseModel(BaseModel):
             "description": "Loan term in years",
         },
     )
+    mortgage_amount: Optional[float] = Field(
+        default=None,
+        json_schema_extra={
+            "example": 225000.00,
+            "description": "Amount of the mortgage. Calculated based on loan to value and purchase price.",
+        },
+    )
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -132,6 +141,7 @@ class MortgageBaseModel(BaseModel):
 class MortgageCreateModel(MortgageBaseModel):
     loan_to_value: float
     interest_rate: float
+    loan_term: int
     mortgage_type: MortgageType
     property_id: UUID
 

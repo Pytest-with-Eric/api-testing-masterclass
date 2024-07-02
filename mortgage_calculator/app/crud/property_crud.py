@@ -11,6 +11,7 @@ def create_property_crud(
 ):
     try:
         new_property = models.PropertyOrm(**payload.model_dump())
+        print(new_property.admin_costs)
         db.add(new_property)
         db.commit()
         db.refresh(new_property)
