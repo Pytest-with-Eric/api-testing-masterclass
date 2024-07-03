@@ -1,23 +1,17 @@
-from fastapi import status, APIRouter, Depends
-from app.crud.property_crud import (
-    create_property_crud,
-    get_property_crud,
-    update_property_crud,
-    delete_property_crud,
-    get_properties_crud,
-)
-from app.crud.mortgage_crud import (
-    create_mortgage_crud,
-    get_mortgage_crud,
-    update_mortgage_crud,
-    delete_mortgage_crud,
-    get_mortgages_crud,
-)
-from app.custom.db_queries import get_mortgage_payment
-import app.schemas as schemas
-from sqlalchemy.orm import Session
-from app.database import get_db
 from typing import Dict
+
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
+
+import app.schemas as schemas
+from app.crud.mortgage_crud import (create_mortgage_crud, delete_mortgage_crud,
+                                    get_mortgage_crud, get_mortgages_crud,
+                                    update_mortgage_crud)
+from app.crud.property_crud import (create_property_crud, delete_property_crud,
+                                    get_properties_crud, get_property_crud,
+                                    update_property_crud)
+from app.custom.db_queries import get_mortgage_payment
+from app.database import get_db
 
 router = APIRouter()
 
@@ -162,8 +156,10 @@ def get_mortgages(db: Session = Depends(get_db)) -> schemas.MortgageListResponse
     return get_mortgages_crud(db=db)
 
 
-@router.post("/mortgage/{mortgage_id}/payment", response_model=Dict)
-def calculate_mortgage_payment(mortgage_id: str, db: Session = Depends(get_db)) -> Dict:
+@router.post("/mortgage/{mortgage_id}/payment", response_model=Dict[str, str | float])
+def calculate_mortgage_payment(
+    mortgage_id: str, db: Session = Depends(get_db)
+) -> Dict[str, str | float]:
     """
     Retrieve the monthly payment for a given mortgage.
     """

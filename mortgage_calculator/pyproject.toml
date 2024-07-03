@@ -18,7 +18,20 @@ psycopg2 = "^2.9.9"
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
 pytest-randomly = "^3.15.0"
+ruff = "^0.5.0"
+black = "^24.4.2"
+isort = "^5.13.2"
 
+[tool.pytest.ini_options]
+markers = [
+    "integration: mark a test as an integration test", # Tests that use a database or external service
+    "unit: mark a test as a unit test",                # Tests that have no external dependencies
+    "api: mark a test as an api test",                 # Tests that involve an API Endpoint
+]
+# log_cli = true
+# log_cli_level = "INFO"
+# log_format = "%(asctime)s %(levelname)s %(message)s"
+# log_date_format = "%Y-%m-%d %H:%M:%S"
 
 [build-system]
 requires = ["poetry-core"]

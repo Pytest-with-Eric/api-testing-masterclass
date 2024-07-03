@@ -1,8 +1,10 @@
-from enum import Enum
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional
-from pydantic import BaseModel, Field, ConfigDict
 from uuid import UUID
+
+from pydantic import BaseModel, ConfigDict, Field
+
 from app.models import MortgageType
 
 

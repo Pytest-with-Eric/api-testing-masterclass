@@ -1,9 +1,10 @@
-import app.schemas as schemas
-import app.models as models
-from app.database import get_db
-from sqlalchemy.orm import Session
+from fastapi import Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-from fastapi import HTTPException, status, Depends
+from sqlalchemy.orm import Session
+
+import app.models as models
+import app.schemas as schemas
+from app.database import get_db
 
 
 def create_mortgage_crud(

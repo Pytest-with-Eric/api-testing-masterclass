@@ -1,10 +1,13 @@
+import uuid
 from enum import Enum
-from sqlalchemy import Column, String, ForeignKey, Numeric, TIMESTAMP
+
+from sqlalchemy import TIMESTAMP, Column
+from sqlalchemy import Enum as SQLAlchemyEnum
+from sqlalchemy import ForeignKey, Numeric, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from sqlalchemy_utils import UUIDType
-from sqlalchemy import Enum as SQLAlchemyEnum
-import uuid
+
 from app.database import Base
 
 

@@ -1,7 +1,18 @@
-def test_create_mortgage(test_client, property_payload, mortgage_payload):
+import pytest
+
+
+@pytest.mark.api
+@pytest.mark.integration
+def test_create_mortgage(
+    test_client,
+    property_payload,
+    mortgage_payload,
+    property_endpoint,
+    mortgage_endpoint,
+):
 
     # Create a property
-    create_response = test_client.post("/api/v1/property/", json=property_payload)
+    create_response = test_client.post(property_endpoint, json=property_payload)
     create_response_json = create_response.json()
     assert create_response.status_code == 201
 
@@ -12,13 +23,13 @@ def test_create_mortgage(test_client, property_payload, mortgage_payload):
     mortgage_payload["property_id"] = property_id
 
     # Create a mortgage
-    create_response = test_client.post("/api/v1/mortgage/", json=mortgage_payload)
+    create_response = test_client.post(mortgage_endpoint, json=mortgage_payload)
     create_response_json = create_response.json()
     assert create_response.status_code == 201
 
     # Get the created mortgage id
     mortgage_id = create_response_json["data"]["id"]
-    get_response = test_client.get(f"/api/v1/mortgage/{mortgage_id}")
+    get_response = test_client.get(f"{mortgage_endpoint}{mortgage_id}")
     mortgage_data = get_response.json()["data"]
     assert get_response.status_code == 200
     assert mortgage_data["loan_to_value"] == mortgage_payload["loan_to_value"]
@@ -29,12 +40,19 @@ def test_create_mortgage(test_client, property_payload, mortgage_payload):
     assert mortgage_data["updatedAt"] is None
 
 
+@pytest.mark.api
+@pytest.mark.unit
 def test_update_mortgage(
-    test_client, property_payload, mortgage_payload, update_mortgage_payload
+    test_client,
+    property_payload,
+    mortgage_payload,
+    update_mortgage_payload,
+    property_endpoint,
+    mortgage_endpoint,
 ):
 
     # Create a property
-    create_response = test_client.post("/api/v1/property/", json=property_payload)
+    create_response = test_client.post(property_endpoint, json=property_payload)
     create_response_json = create_response.json()
     assert create_response.status_code == 201
 
@@ -45,7 +63,7 @@ def test_update_mortgage(
     mortgage_payload["property_id"] = property_id
 
     # Create a mortgage
-    create_response = test_client.post("/api/v1/mortgage/", json=mortgage_payload)
+    create_response = test_client.post(mortgage_endpoint, json=mortgage_payload)
     create_response_json = create_response.json()
     assert create_response.status_code == 201
 
@@ -54,11 +72,11 @@ def test_update_mortgage(
 
     # Update the mortgage
     update_response = test_client.patch(
-        f"/api/v1/mortgage/{mortgage_id}", json=update_mortgage_payload
+        f"{mortgage_endpoint}{mortgage_id}", json=update_mortgage_payload
     )
     assert update_response.status_code == 202
 
-    get_response = test_client.get(f"/api/v1/mortgage/{mortgage_id}")
+    get_response = test_client.get(f"{mortgage_endpoint}{mortgage_id}")
     mortgage_data = get_response.json()["data"]
     assert get_response.status_code == 200
     assert mortgage_data["interest_rate"] == update_mortgage_payload["interest_rate"]
@@ -69,10 +87,18 @@ def test_update_mortgage(
     assert mortgage_data["updatedAt"] is not None
 
 
-def test_delete_mortgage(test_client, property_payload, mortgage_payload):
+@pytest.mark.api
+@pytest.mark.integration
+def test_delete_mortgage(
+    test_client,
+    property_payload,
+    mortgage_payload,
+    property_endpoint,
+    mortgage_endpoint,
+):
 
     # Create a property
-    create_response = test_client.post("/api/v1/property/", json=property_payload)
+    create_response = test_client.post(property_endpoint, json=property_payload)
     create_response_json = create_response.json()
     assert create_response.status_code == 201
 
@@ -83,7 +109,7 @@ def test_delete_mortgage(test_client, property_payload, mortgage_payload):
     mortgage_payload["property_id"] = property_id
 
     # Create a mortgage
-    create_response = test_client.post("/api/v1/mortgage/", json=mortgage_payload)
+    create_response = test_client.post(mortgage_endpoint, json=mortgage_payload)
     create_response_json = create_response.json()
     assert create_response.status_code == 201
 
@@ -91,10 +117,10 @@ def test_delete_mortgage(test_client, property_payload, mortgage_payload):
     mortgage_id = create_response_json["data"]["id"]
 
     # Delete the mortgage
-    delete_response = test_client.delete(f"/api/v1/mortgage/{mortgage_id}")
+    delete_response = test_client.delete(f"{mortgage_endpoint}{mortgage_id}")
     assert delete_response.status_code == 202
 
     # Get the deleted mortgage
-    get_response = test_client.get(f"/api/v1/mortgage/{mortgage_id}")
+    get_response = test_client.get(f"{mortgage_endpoint}{mortgage_id}")
     assert get_response.status_code == 404
     assert get_response.json()["detail"] == "Mortgage not found."

@@ -1,10 +1,9 @@
-from sqlalchemy.orm import Session
-from app.models import MortgageOrm, PropertyOrm
 from fastapi import HTTPException, status
-from app.custom.calculations import (
-    calculate_interest_only_payment,
-    calculate_repayment_mortgage_payment,
-)
+from sqlalchemy.orm import Session
+
+from app.custom.calculations import (calculate_interest_only_payment,
+                                     calculate_repayment_mortgage_payment)
+from app.models import MortgageOrm, PropertyOrm
 from app.schemas import MortgageType
 
 
@@ -38,4 +37,4 @@ def get_mortgage_payment(mortgage_id: str, db: Session):
             status_code=status.HTTP_400_BAD_REQUEST, detail="Unsupported mortgage type."
         )
 
-    return {"mortgage_id": mortgage.id, "monthly_payment": monthly_payment}
+    return {"mortgage_id": str(mortgage.id), "monthly_payment": float(monthly_payment)}

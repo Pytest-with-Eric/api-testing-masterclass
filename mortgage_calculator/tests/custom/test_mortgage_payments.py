@@ -1,9 +1,11 @@
+import pytest
 from app.custom.calculations import (
     calculate_interest_only_payment,
     calculate_repayment_mortgage_payment,
 )
 
 
+@pytest.mark.unit
 def test_interest_only_payment():
     loan_amount = 100000
     annual_interest_rate = 3
@@ -12,6 +14,7 @@ def test_interest_only_payment():
     assert payment == expected_payment
 
 
+@pytest.mark.unit
 def test_repayment_payment():
     loan_amount = 100000
     annual_interest_rate = 3
@@ -23,6 +26,8 @@ def test_repayment_payment():
     assert payment == expected_payment
 
 
+@pytest.mark.api
+@pytest.mark.integration
 def test_mortgage_payment_endpoint(
     test_client, db_session, property_payload, mortgage_payload
 ):
@@ -49,6 +54,5 @@ def test_mortgage_payment_endpoint(
     assert get_response.status_code == 200
     assert (
         mortgage_payment["mortgage_id"] is not None
-        and float(mortgage_payment["monthly_payment"])
-        > 0  # TODO - Return this field as a float
+        and mortgage_payment["monthly_payment"] > 0
     )

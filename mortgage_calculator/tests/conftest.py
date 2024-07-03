@@ -1,32 +1,62 @@
 import pytest
-import uuid
+from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
-from fastapi.testclient import TestClient
-from app.main import app
+from sqlalchemy.exc import OperationalError as SQLAlchemyOperationalError
+
 from app.database import Base, get_db
+from app.main import app
 
-# SQLite database URL for testing
-SQLITE_DATABASE_URL = "sqlite:///./test_db.db"
 
-# Create a SQLAlchemy engine
-engine = create_engine(
-    SQLITE_DATABASE_URL,
-    connect_args={"check_same_thread": False},
-    poolclass=StaticPool,
-)
+def pytest_addoption(parser):
+    parser.addoption(
+        "--dburl",  # For Postgres use "postgresql://user:password@localhost/dbname"
+        action="store",
+        default="sqlite:///./test_db.db",  # Default uses SQLite in memory db
+        help="Database URL to use for tests.",
+    )
 
-# Create a sessionmaker to manage sessions
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Create tables in the database
-Base.metadata.create_all(bind=engine)
+# @pytest.hookimpl(tryfirst=True)
+# def pytest_sessionstart(session):
+#     db_url = session.config.getoption("--dburl")
+#     try:
+#         # Attempt to create an engine and connect to the database.
+#         engine = create_engine(
+#             db_url,
+#             connect_args={"check_same_thread": False} if "sqlite" in db_url else {},
+#         )
+#         connection = engine.connect()
+#         connection.close()  # Close the connection right after a successful connect.
+#         print("Database connection successful........")
+#     except SQLAlchemyOperationalError as e:
+#         print(f"Failed to connect to the database at {db_url}: {e}")
+#         pytest.exit(
+#             "Stopping tests because database connection could not be established."
+#         )
+
+
+@pytest.fixture(scope="session")
+def db_url(request):
+    """Fixture to retrieve the database URL."""
+    return request.config.getoption("--dburl")
 
 
 @pytest.fixture(scope="function")
-def db_session():
+def db_session(db_url):
     """Create a new database session with a rollback at the end of the test."""
+    # Create a SQLAlchemy engine
+    engine = create_engine(
+        db_url,
+        poolclass=StaticPool,
+    )
+
+    # Create a sessionmaker to manage sessions
+    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+    # Create tables in the database
+    Base.metadata.create_all(bind=engine)
     connection = engine.connect()
     transaction = connection.begin()
     session = TestingSessionLocal(bind=connection)
@@ -49,6 +79,16 @@ def test_client(db_session):
     app.dependency_overrides[get_db] = override_get_db
     with TestClient(app) as test_client:
         yield test_client
+
+
+@pytest.fixture(scope="function")
+def property_endpoint():
+    return "/api/v1/property/"
+
+
+@pytest.fixture(scope="function")
+def mortgage_endpoint():
+    return "/api/v1/mortgage/"
 
 
 # Fixture to generate a user payload
