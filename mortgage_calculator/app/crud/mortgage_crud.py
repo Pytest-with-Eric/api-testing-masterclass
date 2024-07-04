@@ -17,9 +17,6 @@ def create_mortgage_crud(
         # Create a new mortgage object from the payload
         new_mortgage = models.MortgageOrm(**payload.model_dump())
 
-        # Debug print the new mortgage object
-        print(f"New Mortgage: {new_mortgage}")
-
         # Check whether the property exists in the DB
         property_data = (
             db.query(models.PropertyOrm)
@@ -48,9 +45,6 @@ def create_mortgage_crud(
         # Validate the new mortgage object
         mortgage_data = schemas.MortgageModel.model_validate(new_mortgage)
 
-        # Debug print the validated mortgage data
-        print(f"Validated Mortgage Data: {mortgage_data}")
-
         return schemas.MortgageResponseModel(
             status=schemas.Status.Success,
             message="Mortgage created successfully.",
@@ -61,12 +55,6 @@ def create_mortgage_crud(
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail="A mortgage with the given details already exists.",
-        )
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"An error occurred while creating the mortgage: {str(e)}",
         )
 
 

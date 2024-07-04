@@ -33,3 +33,10 @@ def calculate_repayment_mortgage_payment(
         / ((1 + monthly_interest_rate) ** total_payments - 1)
     )
     return round(monthly_payment, 2)
+
+
+def calculate_roi():
+    pass
+
+
+# TODO: Implement the calculate_roi function
