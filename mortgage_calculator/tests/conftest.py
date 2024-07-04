@@ -18,23 +18,23 @@ def pytest_addoption(parser):
     )
 
 
-# @pytest.hookimpl(tryfirst=True)
-# def pytest_sessionstart(session):
-#     db_url = session.config.getoption("--dburl")
-#     try:
-#         # Attempt to create an engine and connect to the database.
-#         engine = create_engine(
-#             db_url,
-#             connect_args={"check_same_thread": False} if "sqlite" in db_url else {},
-#         )
-#         connection = engine.connect()
-#         connection.close()  # Close the connection right after a successful connect.
-#         print("Database connection successful........")
-#     except SQLAlchemyOperationalError as e:
-#         print(f"Failed to connect to the database at {db_url}: {e}")
-#         pytest.exit(
-#             "Stopping tests because database connection could not be established."
-#         )
+@pytest.hookimpl(tryfirst=True)
+def pytest_sessionstart(session):
+    db_url = session.config.getoption("--dburl")
+    try:
+        # Attempt to create an engine and connect to the database.
+        engine = create_engine(
+            db_url,
+            poolclass=StaticPool,
+        )
+        connection = engine.connect()
+        connection.close()  # Close the connection right after a successful connect.
+        print("Database connection successful........")
+    except SQLAlchemyOperationalError as e:
+        print(f"Failed to connect to the database at {db_url}: {e}")
+        pytest.exit(
+            "Stopping tests because database connection could not be established."
+        )
 
 
 @pytest.fixture(scope="session")
