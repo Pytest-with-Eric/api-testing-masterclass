@@ -11,9 +11,6 @@ def create_mortgage_crud(
     payload: schemas.MortgageCreateModel, db: Session = Depends(get_db)
 ):
     try:
-        # Debug print the payload
-        print(f"Payload: {payload}")
-
         # Create a new mortgage object from the payload
         new_mortgage = models.MortgageOrm(**payload.model_dump())
 
@@ -34,9 +31,6 @@ def create_mortgage_crud(
         loan_to_value = float(new_mortgage.loan_to_value)  # Ensure this is float
         mortgage_amount = (purchase_price * loan_to_value) / 100
         new_mortgage.mortgage_amount = mortgage_amount
-
-        # Debug print the mortgage amount
-        print(f"Calculated Mortgage Amount: {mortgage_amount}")
 
         db.add(new_mortgage)
         db.commit()

@@ -1,0 +1,1153 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/api/v1/property": {
+            "get": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Get Properties",
+                "description": "Get all properties.",
+                "operationId": "get_properties_api_v1_property_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PropertyListResponseModel"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Create Property",
+                "description": "Create a new property.",
+                "operationId": "create_property_api_v1_property_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PropertyCreateModel"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PropertyResponseModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/property/{property_id}": {
+            "get": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Get Property",
+                "description": "Get a property by ID.",
+                "operationId": "get_property_api_v1_property__property_id__get",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Property Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PropertyResponseModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Update Property",
+                "description": "Update a property by ID.",
+                "operationId": "update_property_api_v1_property__property_id__patch",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Property Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PropertyUpdateModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PropertyResponseModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Delete Property",
+                "description": "Delete a property by ID.",
+                "operationId": "delete_property_api_v1_property__property_id__delete",
+                "parameters": [
+                    {
+                        "name": "property_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Property Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PropertyDeleteModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/mortgage": {
+            "get": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Get Mortgages",
+                "description": "Get all mortgages.",
+                "operationId": "get_mortgages_api_v1_mortgage_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MortgageListResponseModel"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Create Mortgage",
+                "description": "Create a new mortgage.",
+                "operationId": "create_mortgage_api_v1_mortgage_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MortgageCreateModel"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MortgageResponseModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/mortgage/{mortgage_id}": {
+            "get": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Get Mortgage",
+                "description": "Get a mortgage by ID.",
+                "operationId": "get_mortgage_api_v1_mortgage__mortgage_id__get",
+                "parameters": [
+                    {
+                        "name": "mortgage_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Mortgage Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MortgageResponseModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Update Mortgage",
+                "description": "Update a mortgage by ID.",
+                "operationId": "update_mortgage_api_v1_mortgage__mortgage_id__patch",
+                "parameters": [
+                    {
+                        "name": "mortgage_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Mortgage Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MortgageUpdateModel"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MortgageResponseModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Delete Mortgage",
+                "description": "Delete a mortgage by ID.",
+                "operationId": "delete_mortgage_api_v1_mortgage__mortgage_id__delete",
+                "parameters": [
+                    {
+                        "name": "mortgage_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Mortgage Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MortgageDeleteModel"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/mortgage/{mortgage_id}/payment": {
+            "post": {
+                "tags": [
+                    "MortgageCalculator"
+                ],
+                "summary": "Calculate Mortgage Payment",
+                "description": "Retrieve the monthly payment for a given mortgage.",
+                "operationId": "calculate_mortgage_payment_api_v1_mortgage__mortgage_id__payment_post",
+                "parameters": [
+                    {
+                        "name": "mortgage_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Mortgage Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "number"
+                                            }
+                                        ]
+                                    },
+                                    "title": "Response Calculate Mortgage Payment Api V1 Mortgage  Mortgage Id  Payment Post"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/healthchecker": {
+            "get": {
+                "summary": "Root",
+                "operationId": "root_api_healthchecker_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "MortgageCreateModel": {
+                "properties": {
+                    "loan_to_value": {
+                        "type": "number",
+                        "title": "Loan To Value"
+                    },
+                    "interest_rate": {
+                        "type": "number",
+                        "title": "Interest Rate"
+                    },
+                    "mortgage_type": {
+                        "$ref": "#/components/schemas/MortgageType"
+                    },
+                    "loan_term": {
+                        "type": "integer",
+                        "title": "Loan Term"
+                    },
+                    "mortgage_amount": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Mortgage Amount",
+                        "description": "Amount of the mortgage. Calculated based on loan to value and purchase price.",
+                        "example": 225000
+                    },
+                    "property_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Property Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loan_to_value",
+                    "interest_rate",
+                    "mortgage_type",
+                    "loan_term",
+                    "property_id"
+                ],
+                "title": "MortgageCreateModel"
+            },
+            "MortgageDeleteModel": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "Success"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "message"
+                ],
+                "title": "MortgageDeleteModel"
+            },
+            "MortgageListResponseModel": {
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "Success"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/MortgageModel"
+                        },
+                        "type": "array",
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "message",
+                    "data"
+                ],
+                "title": "MortgageListResponseModel"
+            },
+            "MortgageModel": {
+                "properties": {
+                    "loan_to_value": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Loan To Value",
+                        "description": "Loan to value ratio for the mortgage",
+                        "example": 75
+                    },
+                    "interest_rate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Interest Rate",
+                        "description": "Interest rate for the mortgage",
+                        "example": 2.5
+                    },
+                    "mortgage_type": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MortgageType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Type of mortgage",
+                        "example": "Repayment"
+                    },
+                    "loan_term": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Loan Term",
+                        "description": "Loan term in years",
+                        "example": 30
+                    },
+                    "mortgage_amount": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Mortgage Amount",
+                        "description": "Amount of the mortgage. Calculated based on loan to value and purchase price.",
+                        "example": 225000
+                    },
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Createdat"
+                    },
+                    "updatedAt": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Updatedat"
+                    },
+                    "property_id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Property Id"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "createdAt",
+                    "updatedAt",
+                    "property_id"
+                ],
+                "title": "MortgageModel"
+            },
+            "MortgageResponseModel": {
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "Success"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/MortgageModel"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "message",
+                    "data"
+                ],
+                "title": "MortgageResponseModel"
+            },
+            "MortgageType": {
+                "type": "string",
+                "enum": [
+                    "interest_only",
+                    "repayment"
+                ],
+                "title": "MortgageType"
+            },
+            "MortgageUpdateModel": {
+                "properties": {
+                    "loan_to_value": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Loan To Value",
+                        "description": "Loan to value ratio for the mortgage",
+                        "example": 75
+                    },
+                    "interest_rate": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Interest Rate",
+                        "description": "Interest rate for the mortgage",
+                        "example": 2.5
+                    },
+                    "mortgage_type": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MortgageType"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "description": "Type of mortgage",
+                        "example": "Repayment"
+                    },
+                    "loan_term": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Loan Term",
+                        "description": "Loan term in years",
+                        "example": 30
+                    },
+                    "mortgage_amount": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Mortgage Amount",
+                        "description": "Amount of the mortgage. Calculated based on loan to value and purchase price.",
+                        "example": 225000
+                    }
+                },
+                "type": "object",
+                "title": "MortgageUpdateModel"
+            },
+            "PropertyCreateModel": {
+                "properties": {
+                    "purchase_price": {
+                        "type": "number",
+                        "title": "Purchase Price"
+                    },
+                    "rental_income": {
+                        "type": "number",
+                        "title": "Rental Income"
+                    },
+                    "renovation_cost": {
+                        "type": "number",
+                        "title": "Renovation Cost"
+                    },
+                    "property_name": {
+                        "type": "string",
+                        "title": "Property Name"
+                    },
+                    "admin_costs": {
+                        "type": "number",
+                        "title": "Admin Costs"
+                    },
+                    "management_fees": {
+                        "type": "number",
+                        "title": "Management Fees"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "purchase_price",
+                    "rental_income",
+                    "renovation_cost",
+                    "property_name",
+                    "admin_costs",
+                    "management_fees"
+                ],
+                "title": "PropertyCreateModel"
+            },
+            "PropertyDeleteModel": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "Success"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "message"
+                ],
+                "title": "PropertyDeleteModel"
+            },
+            "PropertyListResponseModel": {
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "Success"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "data": {
+                        "items": {
+                            "$ref": "#/components/schemas/PropertyModel"
+                        },
+                        "type": "array",
+                        "title": "Data"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "message",
+                    "data"
+                ],
+                "title": "PropertyListResponseModel"
+            },
+            "PropertyModel": {
+                "properties": {
+                    "purchase_price": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Purchase Price",
+                        "description": "The purchase price of the property",
+                        "example": 300000
+                    },
+                    "rental_income": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rental Income",
+                        "description": "Monthly rental income from the property",
+                        "example": 1500
+                    },
+                    "renovation_cost": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Renovation Cost",
+                        "description": "Cost of renovation for the property",
+                        "example": 20000
+                    },
+                    "property_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Property Name",
+                        "description": "Name of the property",
+                        "example": "Property 1"
+                    },
+                    "admin_costs": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Admin Costs",
+                        "description": "Administrative costs associated with buying the property",
+                        "example": 500
+                    },
+                    "management_fees": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Management Fees",
+                        "description": "Monthly management fees for the property",
+                        "example": 100
+                    },
+                    "id": {
+                        "type": "string",
+                        "format": "uuid",
+                        "title": "Id"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "title": "Createdat"
+                    },
+                    "updatedAt": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Updatedat"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "id",
+                    "createdAt",
+                    "updatedAt"
+                ],
+                "title": "PropertyModel"
+            },
+            "PropertyResponseModel": {
+                "properties": {
+                    "status": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Status"
+                            }
+                        ],
+                        "default": "Success"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/PropertyModel"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "message",
+                    "data"
+                ],
+                "title": "PropertyResponseModel"
+            },
+            "PropertyUpdateModel": {
+                "properties": {
+                    "purchase_price": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Purchase Price",
+                        "description": "The purchase price of the property",
+                        "example": 300000
+                    },
+                    "rental_income": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Rental Income",
+                        "description": "Monthly rental income from the property",
+                        "example": 1500
+                    },
+                    "renovation_cost": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Renovation Cost",
+                        "description": "Cost of renovation for the property",
+                        "example": 20000
+                    },
+                    "property_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Property Name",
+                        "description": "Name of the property",
+                        "example": "Property 1"
+                    },
+                    "admin_costs": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Admin Costs",
+                        "description": "Administrative costs associated with buying the property",
+                        "example": 500
+                    },
+                    "management_fees": {
+                        "anyOf": [
+                            {
+                                "type": "number"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Management Fees",
+                        "description": "Monthly management fees for the property",
+                        "example": 100
+                    }
+                },
+                "type": "object",
+                "title": "PropertyUpdateModel"
+            },
+            "Status": {
+                "type": "string",
+                "enum": [
+                    "Success",
+                    "Error"
+                ],
+                "title": "Status"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            }
+        }
+    }
+}

@@ -1,8 +1,7 @@
 import pytest
-from app.custom.calculations import (
-    calculate_interest_only_payment,
-    calculate_repayment_mortgage_payment,
-)
+
+from app.custom.calculations import (calculate_interest_only_payment,
+                                     calculate_repayment_mortgage_payment)
 
 
 @pytest.mark.unit

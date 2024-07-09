@@ -4,12 +4,20 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 import app.schemas as schemas
-from app.crud.mortgage_crud import (create_mortgage_crud, delete_mortgage_crud,
-                                    get_mortgage_crud, get_mortgages_crud,
-                                    update_mortgage_crud)
-from app.crud.property_crud import (create_property_crud, delete_property_crud,
-                                    get_properties_crud, get_property_crud,
-                                    update_property_crud)
+from app.crud.mortgage_crud import (
+    create_mortgage_crud,
+    delete_mortgage_crud,
+    get_mortgage_crud,
+    get_mortgages_crud,
+    update_mortgage_crud,
+)
+from app.crud.property_crud import (
+    create_property_crud,
+    delete_property_crud,
+    get_properties_crud,
+    get_property_crud,
+    update_property_crud,
+)
 from app.custom.db_queries import get_mortgage_payment
 from app.database import get_db
 

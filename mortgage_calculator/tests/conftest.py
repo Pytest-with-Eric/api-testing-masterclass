@@ -1,9 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
+from sqlalchemy.exc import OperationalError as SQLAlchemyOperationalError
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
-from sqlalchemy.exc import OperationalError as SQLAlchemyOperationalError
 
 from app.database import Base, get_db
 from app.main import app
