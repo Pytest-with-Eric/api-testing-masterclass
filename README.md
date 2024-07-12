@@ -2,7 +2,7 @@
 
 ## Description
 
-This repository contains the example code for the article series on [Pytest API Testing with FastAPI, SQLAlchemy, Postgres - 1/2](https://pytest-with-eric.com/api-testing/pytest-api-testing-1/).
+This repository contains the example code for the article series on Pytest API Testing with FastAPI, SQLAlchemy, Postgres - [Part-1](https://pytest-with-eric.com/api-testing/pytest-api-testing-1/) and [Part 2](https://pytest-with-eric.com/api-testing/pytest-api-testing-2/).
 
 
 ## Installation
@@ -24,6 +24,15 @@ $ poetry run uvicorn app.main:app --host localhost --port 8000 --reload
 ```
 
 This will spin up the server at `http://localhost:8000`
+
+### How To Run the Tests
+
+To run the tests, use the following command:
+
+```shell
+$ poetry run pytest
+$ poetry run pytest --dburl=postgresql://myuser:mypassword@localhost:5433/mydatabase_test
+```
 
 Please follow further instructions on how to run the app in the [blog post](https://pytest-with-eric.com/api-testing/pytest-api-testing-1/).
 

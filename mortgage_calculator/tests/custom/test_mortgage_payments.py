@@ -53,7 +53,6 @@ def test_mortgage_payment_endpoint(
     get_response = test_client.post(f"/api/v1/mortgage/{mortgage_id}/payment")
     mortgage_payment = get_response.json()
     assert get_response.status_code == 200
-    assert (
-        mortgage_payment["mortgage_id"] == mortgage_id
-        and mortgage_payment["monthly_payment"] == pytest.approx(1265.0, 0.1)
-    )
+    assert mortgage_payment["mortgage_id"] == mortgage_id and mortgage_payment[
+        "monthly_payment"
+    ] == pytest.approx(1265.0, 0.1)

@@ -14,7 +14,7 @@ def test_create_property_missing_payload(
     # Create a property
     create_response = test_client.post(property_endpoint, json=property_payload)
     assert create_response.status_code == 422  # Unprocessable Entity, Client Error
-    assert create_response.json() == {  # You can choose to assert the actual error message but comes with maintainance overhead
+    assert create_response.json() == {
         "detail": [
             {
                 "type": "missing",
