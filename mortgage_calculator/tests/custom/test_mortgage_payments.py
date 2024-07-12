@@ -1,7 +1,9 @@
 import pytest
 
-from app.custom.calculations import (calculate_interest_only_payment,
-                                     calculate_repayment_mortgage_payment)
+from app.custom.calculations import (
+    calculate_interest_only_payment,
+    calculate_repayment_mortgage_payment,
+)
 
 
 @pytest.mark.unit
@@ -52,6 +54,6 @@ def test_mortgage_payment_endpoint(
     mortgage_payment = get_response.json()
     assert get_response.status_code == 200
     assert (
-        mortgage_payment["mortgage_id"] is not None
-        and mortgage_payment["monthly_payment"] > 0
+        mortgage_payment["mortgage_id"] == mortgage_id
+        and mortgage_payment["monthly_payment"] == pytest.approx(1265.0, 0.1)
     )
